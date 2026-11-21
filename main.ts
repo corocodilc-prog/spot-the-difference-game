@@ -1,18 +1,18 @@
-// A working best-game-01 entry (Node 22, standard library only): the game is this directory's
-// game/ folder, plain static files a desktop browser loads offline (game/index.html and its ES
-// modules, no library and no network request), and the program hands it in. It copies game/ and
-// screenshots/ from beside this file to /output and writes /output/dossier.json, the summary the
-// judge reads, with the vendored make.fun library. A starting point, not a winner: Block Dodger, a
-// plain 2D canvas game where a paddle dodges falling blocks and catches coins, with a title screen,
-// score, lives and levels, game over and restart, flat colours and no sound. Build your own game
-// (any genre, any library you vendor under game/, or none), put your 3 or 4 PNG or JPEG screenshots
-// in screenshots/ (the first by name is the cover) and run it.
+// Twinkle Toys — Spot the Difference (Node 22, standard library only): the game is this
+// directory's game/ folder, plain static files a desktop browser loads offline (game/index.html
+// and its ES modules, no library and no network request), and the program hands it in. It copies
+// game/ and screenshots/ from beside this file to /output and writes /output/dossier.json, the
+// summary the judge reads, with the vendored make.fun library. The game itself: three original
+// hand-drawn scenes — The Toy Shop Window at dusk, The Astronomer's Rooftop at night, The
+// Lighthouse Keeper's Kitchen in the morning — each hiding seven fair differences between two
+// pictures side by side; markers, a found-difference counter, hints, a magnifier, a timer, and
+// synthesized WebAudio sounds. No network, no libraries.
 //
 // Serve it locally with `node serve.ts`, then open http://localhost:8080.
 // Outside the grader's container, MAKEFUN_OUTPUT_DIR stands in for /output:
 //   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 
-import { cpSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildDossier } from './vendor/makefun-game.ts';
@@ -39,3 +39,6 @@ writeFileSync(
     game_path_max_bytes: 1000,
   }),
 );
+
+const dossierBytes = readFileSync(join(out, 'dossier.json')).length;
+console.log(`Handed in Twinkle Toys — Spot the Difference to ${out}: dossier.json is ${dossierBytes} bytes; game/ and screenshots/ copied.`);
